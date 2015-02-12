@@ -7,10 +7,12 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -22,6 +24,7 @@ import com.jcabi.log.Logger;
 import com.spotify.docker.client.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.xebialabs.overcast.PropertiesLoader;
 import com.xebialabs.overcast.host.CloudHost;
 
 
@@ -75,7 +78,26 @@ public abstract class OvercastAbstractMojo extends AbstractMojo {
 			return;
 		}
 
-		run();
+		if (!conf.exists()) {
+			throw new MojoExecutionException("Overcast configuration file does not exist: " + FilenameUtils.normalize(conf.getAbsolutePath()));
+		}
+
+		Properties properties = System.getProperties();
+
+		String key = PropertiesLoader.OVERCAST_CONF_FILE_PROPERTY;
+		String value = properties.getProperty(key);
+
+		properties.setProperty(key, conf.getAbsolutePath());
+
+		try {
+			run();
+		} finally {
+			if (value != null) {
+				properties.setProperty(key, value);
+			} else {
+				properties.remove(key);
+			}
+		}
 	}
 
 	public abstract void run() throws MojoExecutionException, MojoFailureException;

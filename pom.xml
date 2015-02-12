@@ -9,14 +9,14 @@
 	</parent>
 
 	<groupId>com.github.sarxos</groupId>
-	<artifactId>overcast-maven-plugin</artifactId>
+	<artifactId>overcast-maven-parent</artifactId>
 	<version>0.1.5-SNAPSHOT</version>
-	<packaging>maven-plugin</packaging>
+	<packaging>pom</packaging>
 
-	<name>Overcast Maven Plugin</name>
+	<name>Overcast Maven Tools</name>
 	<url>https://github.com/sarxos/overcast-maven-plugin</url>
-	<description>This plugin allows you to overcast virtual instances spawning.</description>
-	<inceptionYear>2014</inceptionYear>
+	<description>This is set of Overcast Maven tools composed of Maven plugin and helper utility class</description>
+	<inceptionYear>2015</inceptionYear>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -55,6 +55,11 @@
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
+
+	<modules>
+		<module>overcast-maven-helper</module>
+		<module>overcast-maven-plugin</module>
+	</modules>
 
 	<profiles>
 		<profile>
@@ -116,81 +121,6 @@
 			</build>
 		</profile>
 	</profiles>
-
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-client</artifactId>
-				<version>2.7.6</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpcore</artifactId>
-				<version>4.3.2</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.httpcomponents</groupId>
-				<artifactId>httpclient</artifactId>
-				<version>4.3.2</version>
-			</dependency>
-		</dependencies>
-	</dependencyManagement>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.11</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.assertj</groupId>
-			<artifactId>assertj-core</artifactId>
-			<version>1.6.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-plugin-api</artifactId>
-			<version>3.2.5</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven.plugin-tools</groupId>
-			<artifactId>maven-plugin-annotations</artifactId>
-			<version>3.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.codehaus.plexus</groupId>
-			<artifactId>plexus-utils</artifactId>
-			<version>3.0.12</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.maven</groupId>
-			<artifactId>maven-core</artifactId>
-			<version>3.2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<version>1.16.0</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jcabi</groupId>
-			<artifactId>jcabi-maven-slf4j</artifactId>
-			<version>0.9</version>
-		</dependency>
-		<dependency>
-			<groupId>com.jcabi</groupId>
-			<artifactId>jcabi-log</artifactId>
-			<version>0.16</version>
-		</dependency>
-		<dependency>
-			<groupId>com.xebialabs.cloud</groupId>
-			<artifactId>overcast</artifactId>
-			<version>2.4.0</version>
-		</dependency>
-	</dependencies>
 
 	<build>
 		<plugins>
