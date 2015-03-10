@@ -1,12 +1,12 @@
 # overcast-maven-plugin
 
-This is Maven plugin to help setup integration tests that depends on instances setup with the [Overcast](https://github.com/xebialabs/overcast). If you do not what the Overcast is, or do not know how it works, I suggest tu read the following blog post by the [Paul van der Ende](http://blog.xebia.com/author/pvanderende):
+This is Maven plugin that helps setup integration tests which depends on the [Overcast](https://github.com/xebialabs/overcast) setup. If you do not know what the Overcast is, or you do not know how it works, I suggest to read the following blog post by the [Paul van der Ende](http://blog.xebia.com/author/pvanderende):
 
 [Fast and Easy integration testing with Docker and Overcast](http://blog.xebia.com/2014/10/13/fast-and-easy-integration-testing-with-docker-and-overcast)
 
 ## Rationalle
 
-If you read the above blog post you can find the statement that using Overcast is **fast and easy**. This is indeed true, but only to some extent. When project grows and need to use more and more dependencies, you may find it very difficult to wire everything up so it will not conflict with the dependencies used by the Overcast. I found myself very difficult to resove conflicts between versions of Jersey and Jackson that were used both in my project and the Overcast. These conflicts caused all my integration tests to fail instantly (various dependency management combinations didn't help) and thus I came up with the idea of excluding everything Overcast offers to the Maven build lifecycle. All that is left in runtime is a very simple artifact that has no dependencies at all and uses pure JRE classes.
+It's widely proven statement that doing integration tests with Overcast is **fast and easy**. I can guarantee that it's indeed true, but only to some extent because when project grow needing more and more dependencies, you may find it very difficult to wire everything together because it may conflict with the dependencies used by the Overcast (e.g. HTTP Client, AWS SDK, etc). I found it very difficult to resolve conflicts between versions of Jersey and Jackson that were used both in my project and the Overcast. These conflicts caused all my integration tests to fail instantly (various dependency management combinations didn't help) and thus I came up with the idea of excluding whole Overcast-related stuff to the Maven build lifecycle so it does not conflict with the runtime. All that is left in project code is a very simple helper class that has no dependencies at all and uses pure JRE classes.
 
 ## How To Use
 

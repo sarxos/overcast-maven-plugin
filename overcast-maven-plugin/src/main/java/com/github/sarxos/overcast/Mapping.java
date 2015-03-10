@@ -1,4 +1,4 @@
-package com.github.sarxos.omp;
+package com.github.sarxos.overcast;
 
 import java.io.Serializable;
 import java.util.HashMap;

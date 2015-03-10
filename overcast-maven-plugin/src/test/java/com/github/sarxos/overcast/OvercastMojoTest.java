@@ -1,10 +1,11 @@
-package com.github.sarxos.omp;
+package com.github.sarxos.overcast;
 
 import java.io.File;
 
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
+import com.github.sarxos.overcast.OvercastSetupMojo;
 import com.typesafe.config.Config;
 
 
