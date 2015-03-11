@@ -10,7 +10,7 @@
 
 	<groupId>com.github.sarxos</groupId>
 	<artifactId>overcast-maven-parent</artifactId>
-	<version>0.1.6.1</version>
+	<version>0.1.6.2</version>
 	<packaging>pom</packaging>
 
 	<name>Overcast Maven Tools</name>
