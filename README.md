@@ -10,7 +10,7 @@ It's widely proven statement that doing integration tests with Overcast is **fas
 
 ## How To Use
 
-Put your ```overcast.conf``` file in the project root directory (this path cannot be changed for now) so the project layout looks like the following:
+Put your ```overcast.conf``` file somewhere in your project so the files layout will look like the following:
 
 ```plain
 src
@@ -18,8 +18,10 @@ src
      \_ java
     test
      \_ java
+        \_ MyIntegrationTest.java
+    \_ overcast
+        \_ overcast.conf
 pom.xml
-overcast.conf
 ```
 
 The example ```overcast.conf``` may look like the following (the below example defines only one [docker](https://www.docker.com/) instance):
@@ -41,9 +43,9 @@ The plugin configuration for the above:
 <plugin>
 	<groupId>com.github.sarxos</groupId>
 	<artifactId>overcast-maven-plugin</artifactId>
-	<version>0.1.4</version>
+	<version>0.1.7</version>
 	<configuration>
-		<conf>${project.basedir}/overcast.conf</conf>
+		<conf>${project.basedir}/src/test/overcast/overcast.conf</conf>
 		<instances>
 			<instance>
 				<name>mysql</name>
@@ -64,13 +66,40 @@ The plugin configuration for the above:
 </plugin>
 ```
 
-In your integration test you can now use ```OvercastHelper``` (see source code in next paragraph) to read instances ports and hosts:
+In the ```dependencies``` section of your POM add the helper artifact with scope ```test``` (it has no transitive dependencies so you do not have to bother resolving the conflicts):
+
+```xml
+<dependency>
+	<groupId>com.github.sarxos</groupId>
+	<artifactId>overcast-maven-helper</artifactId>
+	<version>0.1.7</version>
+	<scope>test</scope>
+</dependency>
+```
+
+So you can now use ```OvercastHelper``` class in your integration tests Java code:
 
 ```java
-@BeforeClass
-public static void prepare() {
-	host = OvercastHelper.getHostName("mysql");
-	port = OvercastHelper.getPort("mysql", 3306);
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import com.github.sarxos.overcast.OvercastHelper;
+
+public class MyIntegrationTest {
+
+	private static String host;
+	private static int port; 
+
+	@BeforeClass
+	public static void prepare() {
+		host = OvercastHelper.getHostName("mysql");
+		port = OvercastHelper.getPort("mysql", 3306);
+	}
+
+	@Test
+	public void test_doIntegrationWithMySql() {
+		// your test code
+	}
 }
 ```
 
@@ -82,7 +111,7 @@ $ mvn clean verify
 
 ## How It Works
 
-The plugin takes all instances from configuration in ```POM``` and spawn them by using settings from Overcast. You must specify what ports you will be using, example:
+The plugin takes all instances from configuration in ```POM``` and spawn them by using settings from Overcast. You must specify what ports you will be using, for example:
 
 ```xml
 <instances>
@@ -95,70 +124,7 @@ The plugin takes all instances from configuration in ```POM``` and spawn them by
 </instances>
 ```
 
-Plugin will setup these instances in the ```pre-integration-test``` phase and tear them down in ```post-integration-test``` phase. The instances metadata such as port formwarding and target host name are stored in classpath in the ```overcast.ser``` file. This file can be read with the following helper class (I plan to put it in Maven Central as well, but for now one have to copy and pase it into own code base):
-
-```java
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.NoSuchElementException;
-
-
-/**
- * Helper class that will read metadata stored by the overcast-maven-plugin.
- *
- * @author Bartosz Firyn (sarxos)
- */
-public class OvercastHelper {
-
-	private static final InputStream stream(String name) {
-		return OvercastHelper.class.getClassLoader().getResourceAsStream(name);
-	}
-
-	@SuppressWarnings("unchecked")
-	private static final Map<?, ?> mapping(String name) {
-
-		List<Map<?, ?>> mappings = null;
-
-		try (ObjectInputStream ois = new ObjectInputStream(stream("overcast.ser"))) {
-			mappings = (List<Map<?, ?>>) ois.readObject();
-		} catch (IOException | ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-
-		for (Map<?, ?> mapping : mappings) {
-			if (name.equals(mapping.get("name"))) {
-				return mapping;
-			}
-		}
-
-		throw new NoSuchElementException("No mapping with name " + name + " has been found");
-	}
-
-	public static String getHostName(String name) {
-		return mapping(name).get("host").toString();
-	}
-
-	public static int getPort(String name, int port) {
-
-		Map<?, ?> mapping = mapping(name);
-		Map<?, ?> ports = (Map<?, ?>) mapping.get("ports");
-		String pkey = Integer.toString(port);
-
-		for (Entry<?, ?> entry : ports.entrySet()) {
-			String key = entry.getKey().toString();
-			if (key.equals(pkey)) {
-				return Integer.valueOf(entry.getValue().toString());
-			}
-		}
-
-		throw new NoSuchElementException("Port " + port + " is not forwarded");
-	}
-}
-```
+The plugin will setup these instances in the ```pre-integration-test``` phase and tear them down in ```post-integration-test``` phase. The instances metadata such as port formwarding and target host name are stored in classpath in the ```overcast.ser``` file. This file is being read by the the ```OvercastHelper``` class.
 
 ## License
 

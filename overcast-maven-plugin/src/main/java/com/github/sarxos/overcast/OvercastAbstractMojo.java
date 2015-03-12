@@ -51,7 +51,7 @@ public abstract class OvercastAbstractMojo extends AbstractMojo {
 	/**
 	 * Overcast configuration file.
 	 */
-	@Parameter(required = true)
+	@Parameter(defaultValue = "${project.basedir}/src/test/overcast/overcast.conf", required = true)
 	private transient File conf;
 
 	/**
