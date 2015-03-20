@@ -1,21 +1,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-	<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>com.github.sarxos</groupId>
-		<artifactId>overcast-maven-parent</artifactId>
-		<version>0.1.8-SNAPSHOT</version>
-	</parent>
+  <parent>
+    <groupId>com.github.sarxos</groupId>
+    <artifactId>overcast-maven-parent</artifactId>
+    <version>0.1.8-SNAPSHOT</version>
+  </parent>
 
-	<artifactId>overcast-maven-helper</artifactId>
-	<packaging>jar</packaging>
+  <artifactId>overcast-maven-helper</artifactId>
+  <packaging>jar</packaging>
 
-	<name>Overcast Maven Helper</name>
-	<description>
-		This is helper for the overcast-maven-plugin, it offers class
-		which can be used to read serialized plugin file data
-	</description>
+  <name>Overcast Maven Helper</name>
+  <description>
+    This is helper for the overcast-maven-plugin, it offers class
+    which can be used to read serialized plugin file data
+  </description>
 
 </project>
 
