@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>overcast-maven-parent</artifactId>
-  <version>0.1.8-SNAPSHOT</version>
+  <version>0.1.8</version>
   <packaging>pom</packaging>
 
   <name>Overcast Maven Tools</name>
@@ -21,7 +21,7 @@
     <connection>scm:git:git@github.com:sarxos/overcast-maven-plugin.git</connection>
     <developerConnection>scm:git:git@github.com:sarxos/overcast-maven-plugin.git</developerConnection>
     <url>git@github.com:sarxos/overcast-maven-plugin.git</url>
-    <tag>HEAD</tag>
+    <tag>overcast-maven-parent-0.1.8</tag>
   </scm>
 
   <issueManagement>
