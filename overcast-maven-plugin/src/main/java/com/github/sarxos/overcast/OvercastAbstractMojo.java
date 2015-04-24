@@ -24,6 +24,7 @@ import com.jcabi.log.Logger;
 import com.spotify.docker.client.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 import com.typesafe.config.Config;
 import com.typesafe.config.ConfigFactory;
+import com.xebialabs.overcast.OvercastProperties;
 import com.xebialabs.overcast.PropertiesLoader;
 import com.xebialabs.overcast.host.CloudHost;
 
@@ -86,8 +87,14 @@ public abstract class OvercastAbstractMojo extends AbstractMojo {
 
 		String key = PropertiesLoader.OVERCAST_CONF_FILE_PROPERTY;
 		String value = properties.getProperty(key);
+		String path = conf.getAbsolutePath();
 
-		properties.setProperty(key, conf.getAbsolutePath());
+		Logger.debug(this, "Setting system property " + key + " to " + path);
+
+		properties.setProperty(key, path);
+		OvercastProperties.reloadOvercastProperties();
+
+		Logger.debug(this, "Run MOJO " + getClass());
 
 		try {
 			run();
