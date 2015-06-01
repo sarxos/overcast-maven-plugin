@@ -9,7 +9,7 @@
   </parent>
 
   <artifactId>overcast-maven-parent</artifactId>
-  <version>0.1.9-SNAPSHOT</version>
+  <version>0.1.9-vg-1</version>
   <packaging>pom</packaging>
 
   <name>Overcast Maven Tools</name>
